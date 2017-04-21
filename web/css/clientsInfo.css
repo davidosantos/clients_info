@@ -1,0 +1,262 @@
+
+body
+{
+   background-color: #87CEFA;
+   background-image: url(images/novo_cliente_bkgrnd.png);
+   background-repeat: repeat-x;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-size: 13px;
+   line-height: 1.1875;
+   margin: 0;
+   text-align: center;
+}
+
+div#container
+{
+    width: 1082px;
+    height: 800px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.square {
+    width : 501px;
+    background-color : #BFE1F0;
+}
+.border1 {
+}
+
+.site-color {
+    background-color: #336699;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
+}
+
+.site-color-fundo {
+    background-color : #BFE1F0;
+}
+
+.meiapagina {
+    width : 100%;
+    height : 450px;
+    overflow : scroll;
+
+}
+
+div#defaultmessage {
+    z-index:-1;
+}
+
+
+td:focus {
+    background-color: red;
+}
+
+.default_inputstyle
+{
+   border: 1px #CCCCCC solid;
+   -moz-border-radius: 4px;
+   -webkit-border-radius: 4px;
+   border-radius: 4px;
+   background-color: #BFE1F0;
+   background-image: none;
+   color :#000000;
+   font-family: Arial;
+   font-weight: bold;
+   font-size: 13px;
+   padding: 4px 4px 4px 4px;
+   text-align: left;
+   vertical-align: middle;
+}
+
+
+a
+{
+    color: #0000FF;
+    text-decoration: underline;
+}
+a:visited
+{
+    color: #800080;
+}
+a:active
+{
+    color: #FF0000;
+}
+a:hover
+{
+    color: #0000FF;
+    text-decoration: underline;
+}
+h1
+{
+    font-family: Arial;
+    font-weight: bold;
+    font-size: 32px;
+    font-style: normal;
+    text-decoration: none;
+    color: #000000;
+    background-color: transparent;
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+    display: inline;
+}
+h2
+{
+    font-family: Arial;
+    font-weight: bold;
+    font-size: 27px;
+    font-style: normal;
+    text-decoration: none;
+    color: #000000;
+    background-color: transparent;
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+    display: inline;
+}
+h3
+{
+    font-family: Arial;
+    font-weight: normal;
+    font-size: 24px;
+    font-style: normal;
+    text-decoration: none;
+    color: #000000;
+    background-color: transparent;
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+    display: inline;
+}
+h4
+{
+    font-family: Arial;
+    font-weight: normal;
+    font-size: 21px;
+    font-style: italic;
+    text-decoration: none;
+    color: #000000;
+    background-color: transparent;
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+    display: inline;
+}
+h5
+{
+    font-family: Arial;
+    font-weight: normal;
+    font-size: 19px;
+    font-style: normal;
+    text-decoration: none;
+    color: #000000;
+    background-color: transparent;
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+    display: inline;
+}
+h6
+{
+    font-family: Arial;
+    font-weight: normal;
+    font-size: 16px;
+    font-style: normal;
+    text-decoration: none;
+    color: #000000;
+    background-color: transparent;
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+    display: inline;
+}
+
+label
+{
+    font-family: Arial;
+    font-weight: bold;
+    font-size: 14px;
+    font-style: normal;
+}
+span
+{
+    font-family: Arial;
+    font-weight: bold;
+    font-size: 19px;
+    font-style: normal;
+}
+
+#Label10213
+{
+   border: 0px #CCCCCC solid;
+   -moz-border-radius: 4px;
+   -webkit-border-radius: 4px;
+   border-radius: 4px;
+   background-color: transparent;
+   background-image: none;
+   color :#000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-size: 13px;
+   padding: 4px 4px 4px 4px;
+   text-align: left;
+   vertical-align: middle;
+}
+
+.CustomStyle
+{
+    font-family: "Courier New";
+    font-weight: bold;
+    font-size: 16px;
+    font-style: normal;
+    text-decoration: none;
+    color: #000080;
+    background-color: transparent;
+}
+
+.button_padrao
+{
+   border: 1px #2E6DA4 solid;
+   -moz-border-radius: 4px;
+   -webkit-border-radius: 4px;
+   border-radius: 4px;
+   background-color: #BFE1F0;
+   background-image: none;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-size: 13px;
+}
+
+#wb_logado
+{
+    background-color: #336699;
+    background-image: none;
+    border: 1px #CCCCCC solid;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    position:absolute;
+    left: 100px;
+    transform: translateX(-50%);
+    top:30px;
+    width:200px;
+    height:25px;
+    z-index:1000;
+}
+
+#PageFooter
+{
+    background-color: #336699;
+    background-image: none;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    bottom: 0; 
+    position:absolute;
+    overflow:hidden;
+    text-align:left;
+    left:0px;
+    width:100%;
+    height:70px;
+    z-index:1;
+}

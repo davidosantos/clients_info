@@ -1,0 +1,42 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 29/01/2017, 22:08:57
+    Author     : david_000
+*/
+
+#spaceheader{
+    height:  75px;
+    position: relative;
+}
+
+#config_de_email {
+    border: solid;
+    border-width: thin;
+    border-radius: 5px;
+    position: relative;
+    margin: 10px;
+}
+
+#config_de_dados {
+    border: solid;
+    border-width: thin;
+    border-radius: 5px;
+    margin: 10px;
+}
+#config_Novo_user {
+    border: solid;
+    border-width: thin;
+    border-radius: 5px;
+    margin: 10px;
+}
+
+
+
+#banco_form {
+    top: 10px;
+    position: relative;
+}
