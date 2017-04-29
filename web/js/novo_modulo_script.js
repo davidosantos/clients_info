@@ -46,6 +46,7 @@ $(document).ready(function () {
         UploadArquivo();
     });
 
+   // consultaPerfil();
 });
 
 function UploadArquivo() {

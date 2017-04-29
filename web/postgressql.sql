@@ -34,7 +34,7 @@ CREATE TABLE logins (
   nome varchar(255) NOT NULL UNIQUE,
   password int NOT NULL,
   nome_compl VARCHAR(255) NOT NULL,
-  email VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL UNIQUE,
   PRIMARY KEY (login_id),
   CONSTRAINT login_id UNIQUE (login_id)
 );

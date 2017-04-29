@@ -23,7 +23,7 @@
         <script src="bootstrap-4/js/bootstrap.min.js"></script>
         <script src="js/common_script.js"></script>
         <script src="js/inicial_script.js"></script>
-       
+
         <div id="container">
             <div id="div_cliente_modulo" class="site-color border1" style="position:absolute;top:95px;width:1082px;height:318px;z-index:28;">
                 <div id="wb_cliente_form" style="position:absolute;left:0px;top:0px;width:541px;height:312px;z-index:27;">
@@ -77,16 +77,16 @@
                         <div id="wb_Text2" style="position:absolute;left:13px;top:9px;width:250px;height:16px;z-index:2;text-align:left;">
                             <span style="color:#000000;font-family:Arial;font-size:13px;">Pesquisa:</span></div>
                         <input type="text" id="pesquisa_modulo" style="position:absolute;left:13px;top:33px;width:137px;height:25px;line-height:18px;z-index:3;" value="">
-                        
+
                         <input type="submit" class="button_padrao"
                                id="novo_modulo" name="" value="Editar"
                                style="position:absolute;left:370px;top:33px;width:50px;height:25px;z-index:5; ">
-                        
+
                         <input type="button" class="button_padrao"
                                id="modulo_motrar_todos" name="modulo_motrar_todos" value="Mostrar Todos" 
                                onclick="consultaTableModulos('#table_modulos')"
                                style="position:absolute;left:422px;top:33px;width:98px;height:25px;z-index:5; ">
-                        
+
                         <div id="wb_Text5" style="position:absolute;left:164px;top:9px;width:250px;height:16px;z-index:8;text-align:left;">
                             <span style="color:#000000;font-family:Arial;font-size:13px;">Selecionado:</span></div>
                         <input type="text" id="modulo_selecionado" class="default_inputstyle" style="position:absolute;left:145px;top:33px;width:220px;height:25px;line-height:18px;z-index:9;" name="modulo_selecionado" value="" readonly autocomplete="off">
@@ -165,7 +165,7 @@
                 <div class="modal-content site-color">
 
                     <div class="modal-header" id="modal_header_cliente">
-                      
+
                     </div>
                     <div class="modal-body" style="height: 460px;" >
                         <div id="div_contato_" class="site-color border1" style="position:absolute;width:400px;height:430px;z-index:34;left: 50%;transform: translateX(-50%)">
@@ -191,12 +191,46 @@
                                 <input type="text" id="cliente_telefone2_" class="default_inputstyle" style="position:absolute;left:110px;top:350px;width:190px;height:18px;line-height:18px;z-index:23;" name="cliente_telefone2_" value="" >
                                 <label for="cliente_ramal_" id="Label10_" style="position:absolute;left:16px;top:383px;width:76px;height:18px;line-height:18px;z-index:24;">Ramal:</label>
                                 <input type="text" id="cliente_ramal_" class="default_inputstyle" style="position:absolute;left:110px;top:383px;width:190px;height:18px;line-height:18px;z-index:25;" name="cliente_ramal_" value="" >
-                                <input type="button" class="button_padrao" value="Salvar" style="position:absolute;left:20px;top:420px;" onclick="salvarCliente();">
+                                <input type="button" class="button_padrao" value="Novo" style="position:absolute;left:20px;top:420px;" onclick="novoCliente();">
                             </form>
                         </div>
 
                     </div><!-- /.modal-body -->
                     <div class="modal-footer">
+                        
+                        <button type="button" onclick="salvarCliente();"  class="btn btn-primary">Salvar</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+        <div class="modal fade " id="lightbox_EdittarPerfil">
+            <div class="modal-dialog">
+                <div class="modal-content site-color">
+                    <div class="modal-header" id="modal_header_perfil">
+                    </div>
+                    <div class="modal-body" style="height: 180px;" >
+                        <div  class="site-color border1" style="position:absolute;width:400px;height:165px;z-index:34;left: 50%;transform: translateX(-50%)">
+                            <form method="post" action="" id="Form_Perfil">
+                                <input type="hidden" id="perfil_codigo_banco"  name="perfil_codigo_banco">
+                                <label style="position:absolute;left:16px;top:14px;width:76px;height:18px;line-height:18px;z-index:6;">Login:</label>
+                                <input type="text" id="perfil_login" class="default_inputstyle" style="position:absolute;left:110px;top:14px;width:190px;height:18px;line-height:18px;z-index:7;" name="perfil_login" value="" >
+                                <label for="perfil_login"  style="position:absolute;left:16px;top:47px;width:76px;height:18px;line-height:18px;z-index:8;">Nome:</label>
+                                <input type="text" id="perfil_nome_compl" class="default_inputstyle" style="position:absolute;left:110px;top:47px;width:190px;height:18px;line-height:18px;z-index:9;" name="perfil_nome_compl" value="" >
+                                <label for="perfil_email" style="position:absolute;left:16px;top:80px;width:76px;height:18px;line-height:18px;z-index:10;">Email:</label>
+                                <input type="text" id="perfil_email" class="default_inputstyle" style="position:absolute;left:110px;top:80px;width:190px;height:18px;line-height:18px;z-index:11;" name="perfil_email" value="" >
+                                <label for="perfil_senha" style="position:absolute;left:0px;top:113px;width:100px;height:18px;line-height:18px;z-index:12;">Senha Atual:</label>
+                                <input type="password" id="perfil_senha" class="default_inputstyle" style="position:absolute;left:110px;top:112px;width:190px;height:18px;line-height:18px;z-index:15;" name="perfil_senha" value="" >
+                                <label for="perfil_senha_nova" style="position:absolute;left:0px;top:142px;width:100px;height:18px;line-height:18px;z-index:12;">Senha Nova:</label>
+                                <input type="password" id="perfil_senha_nova" class="default_inputstyle" style="position:absolute;left:110px;top:142px;width:190px;height:18px;line-height:18px;z-index:15;" name="perfil_senha_nova" value="" >
+
+                            </form>
+                        </div>
+
+                    </div><!-- /.modal-body -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" onclick="salvarLogin();" >Salvar</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
                     </div>
                 </div><!-- /.modal-content -->

@@ -239,9 +239,9 @@ span
     position:absolute;
     left: 100px;
     transform: translateX(-50%);
-    top:30px;
+    top:24px;
     width:200px;
-    height:25px;
+    height:40px;
     z-index:1000;
 }
 

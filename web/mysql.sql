@@ -37,7 +37,7 @@ CREATE TABLE logins (
   nome VARCHAR(255) NOT NULL UNIQUE,
   password INT(11) NOT NULL,
   nome_compl VARCHAR(255) NOT NULL,
-  email VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL UNIQUE,
   PRIMARY KEY (login_id),
   UNIQUE INDEX login_id (login_id)
 )

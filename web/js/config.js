@@ -12,8 +12,10 @@ function sendFormConfig() {
 //
 //    });
 }
-
-addLoggedUser();
+$(document).ready(function () {
+    addLoggedUser();
+    //consultaPerfil();
+});
 
 function sendBancoDeDadosTest() {
     addTableFunctionTypeINE("#banco_form", "config_banco_test");
@@ -59,7 +61,7 @@ function criarUserSalvar() {
             function (message) {
                 $('#defaultmessage').remove();
                 $('#spaceheader').append(message);
-                
+
             }
     );
 

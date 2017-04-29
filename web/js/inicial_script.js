@@ -41,9 +41,15 @@ $(document).ready(function () {
         consultaTableClientesPorModulo("#table_clientes", $("#modulo_selecionado").val());
     });
     addLoggedUser();
-    modalControl("#lightbox_InserirEdit_Cliente", "#modal_header_cliente", "#cliente_selecionado",function () {consultaTableClientes('#table_clientes')});
+    modalControl("#lightbox_InserirEdit_Cliente", "#modal_header_cliente", "#cliente_selecionado", function () {
+        consultaTableClientes('#table_clientes');
+    });
+    // modalControl("#lightbox_EdittarPerfil", "#modal_header_perfil");
+    //consultaPerfil();
     inputToUpperCase('cliente_codigo_');
 });
+
+
 function consultaContato() {
 
 
@@ -182,7 +188,7 @@ function carregaModulo_info() {
     $.post("getdata",
             $(form).serialize(),
             function (message) {
-               // console.log(message);
+                // console.log(message);
                 var ret = $.parseXML(message);
                 if ($(ret).find('returnType').text() === 'OK') {
                     //$("#modulo_codigo_banco").val($(ret).find('modulo_id);
@@ -236,15 +242,15 @@ function carregaModulo_info() {
 
                     if ($(ret).find('arquivos_anexados').length > 0) {
                         var html = "<tr><td><p style='text-align:center;'><strong>Arquivos Anexados:</strong></p><br>";
-                        
+
                         $(ret).find('arquivos_anexados').each(function (index, nome) {
                             //<a href="https://www.w3schools.com" target="_blank">Visit W3Schools.com!</a> 
-                            html = html + "<a href=\"download?functiontype=Download_Arquivo&modulo_id="+$(ret).find('modulo_id').text()+"&arquivo="+$(nome).text()+"\" target=\"_blank\">" + $(nome).text() + "</a><br>";
+                            html = html + "<a href=\"download?functiontype=Download_Arquivo&modulo_id=" + $(ret).find('modulo_id').text() + "&arquivo=" + $(nome).text() + "\" target=\"_blank\">" + $(nome).text() + "</a><br>";
 
                         });
-                        
-                        html = (html + "<br><br></td></tr>"); 
-                        
+
+                        html = (html + "<br><br></td></tr>");
+
                         $('#Modulo_info_table').append(html);
                     }
                     if ($(ret).find('config_cliente').text()) {
@@ -266,4 +272,17 @@ function carregaModulo_info() {
                 }
             }
     );
+}
+
+
+function novoCliente() {
+    if ($('#lightbox_InserirEdit_Cliente input[id="modal_control"]').val() === undefined) {
+        $('#lightbox_InserirEdit_Cliente').append("<input id=\"modal_control\"  type=\"hidden\" value='new'>");
+
+    } else {
+        $('#lightbox_InserirEdit_Cliente input[id="modal_control"]').remove();
+        $('#lightbox_InserirEdit_Cliente').append("<input id=\"modal_control\"  type=\"hidden\" value='new'>");
+    }
+    $('#modal_header_cliente').text('Criando Novo Cadastro');
+    clearForm('#Form_contato_');
 }

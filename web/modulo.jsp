@@ -215,6 +215,40 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
+        
+        
+        <div class="modal fade " id="lightbox_EdittarPerfil">
+            <div class="modal-dialog">
+                <div class="modal-content site-color">
+                    <div class="modal-header" id="modal_header_perfil">
+                    </div>
+                    <div class="modal-body" style="height: 180px;" >
+                        <div  class="site-color border1" style="position:absolute;width:400px;height:165px;z-index:34;left: 50%;transform: translateX(-50%)">
+                            <form method="post" action="" id="Form_Perfil">
+                                <input type="hidden" id="perfil_codigo_banco"  name="perfil_codigo_banco">
+                                <label style="position:absolute;left:16px;top:14px;width:76px;height:18px;line-height:18px;z-index:6;">Login:</label>
+                                <input type="text" id="perfil_login" class="default_inputstyle" style="position:absolute;left:110px;top:14px;width:190px;height:18px;line-height:18px;z-index:7;" name="perfil_login" value="" >
+                                <label for="perfil_login"  style="position:absolute;left:16px;top:47px;width:76px;height:18px;line-height:18px;z-index:8;">Nome:</label>
+                                <input type="text" id="perfil_nome_compl" class="default_inputstyle" style="position:absolute;left:110px;top:47px;width:190px;height:18px;line-height:18px;z-index:9;" name="perfil_nome_compl" value="" >
+                                <label for="perfil_email" style="position:absolute;left:16px;top:80px;width:76px;height:18px;line-height:18px;z-index:10;">Email:</label>
+                                <input type="text" id="perfil_email" class="default_inputstyle" style="position:absolute;left:110px;top:80px;width:190px;height:18px;line-height:18px;z-index:11;" name="perfil_email" value="" >
+                                <label for="perfil_senha" style="position:absolute;left:0px;top:113px;width:100px;height:18px;line-height:18px;z-index:12;">Senha Atual:</label>
+                                <input type="password" id="perfil_senha" class="default_inputstyle" style="position:absolute;left:110px;top:112px;width:190px;height:18px;line-height:18px;z-index:15;" name="perfil_senha" value="" >
+                                <label for="perfil_senha_nova" style="position:absolute;left:0px;top:142px;width:100px;height:18px;line-height:18px;z-index:12;">Senha Nova:</label>
+                                <input type="password" id="perfil_senha_nova" class="default_inputstyle" style="position:absolute;left:110px;top:142px;width:190px;height:18px;line-height:18px;z-index:15;" name="perfil_senha_nova" value="" >
+
+                            </form>
+                        </div>
+
+                    </div><!-- /.modal-body -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" onclick="salvarLogin();" >Salvar</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
 
         <div id="PageFooter">
             <div id="wb_Image1" style="position:absolute;left:19px;top:25px;width:256px;height:50px;z-index:24;">

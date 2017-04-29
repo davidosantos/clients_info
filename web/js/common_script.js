@@ -80,13 +80,15 @@ function addLoggedUser(first) {
             function (message) {
 
                 var ret = $.parseXML(message);
+                // console.log(message);
                 if ($(ret).find('returnType').text() === 'OK') {
-
+                    // console.log($(ret).find('login_id').text());
+                    if ($(ret).find('login_id').text() !== null) {
+                        consultaPerfil($(ret).find('login_id').text());
+                    }
                     if (first) {
-                         window.location = "inicial.jsp"; //goto inicial
+                        window.location = "inicial.jsp"; //goto inicial
                     } else {
-
-
                         $.get("logado.jsp",
                                 function (data) {
                                     $('#container').append(data);
@@ -110,7 +112,6 @@ function addLoggedUser(first) {
                 }
             }
     );
-
 
 }
 
@@ -573,6 +574,140 @@ function efetuaLogin(form) {
                 } else {
                     console.log("unknown return type in efetuaLogin(): " + message);
                 }
+            }
+    );
+}
+
+
+function efetuaLogout() {
+
+    var form = document.createElement('form');
+    var input1 = document.createElement('input');
+
+    input1.setAttribute('type', 'text');
+    input1.setAttribute('name', 'logout');
+    input1.setAttribute('value', 'logout');
+
+    form.appendChild(input1);
+
+    $.post("logado.jsp",
+            $(form).serialize(),
+            function (message) {
+                var ret_consulta = $.parseXML(message);
+                if ($(ret_consulta).find('returnType').text() === 'OK') {
+                    window.location = '.';
+                } else if ($(ret_consulta).find('returnType').text() === 'ERROR') {
+                    quickErrorMessage($(ret_consulta).find('ErrorMessage').text());
+                } else {
+                    console.log("unknown return type in efetuaLogin(): " + message);
+                }
+            }
+    );
+}
+
+function efetuaLoginGererico() {
+
+    var form = document.createElement('form');
+    var input1 = document.createElement('input');
+
+    input1.setAttribute('type', 'text');
+    input1.setAttribute('name', 'LoginGenerico');
+    input1.setAttribute('value', 'LoginGenerico');
+
+    form.appendChild(input1);
+
+    $.post("logado.jsp",
+            $(form).serialize(),
+            function (message) {
+                var ret_consulta = $.parseXML(message);
+                if ($(ret_consulta).find('returnType').text() === 'OK') {
+                    window.location = 'config.jsp';
+                } else if ($(ret_consulta).find('returnType').text() === 'ERROR') {
+                    quickErrorMessage($(ret_consulta).find('ErrorMessage').text());
+                } else {
+                    console.log("unknown return type in efetuaLogin(): " + message);
+                }
+            }
+    );
+}
+
+
+function enviaSenha(form) {
+    addTableFunctionTypeINE(form, "envia_senha");
+    $.post("getdata",
+            $(form).serialize(),
+            function (message) {
+                //console.log(message);
+                $('#defaultmessage').remove();
+                $('#container').append(message);
+            }
+    );
+}
+
+function consultaPerfil(login_id) {
+
+    if (login_id === '0') { //Login generico não tem perfil.
+        return;
+    }
+
+    //console.log(login_id);
+    var form = document.createElement('form');
+    var input1 = document.createElement('input');
+    var input2 = document.createElement('input');
+    input1.setAttribute('type', 'text');
+    input1.setAttribute('name', 'functiontype');
+    input1.setAttribute('value', 'Perfil_Consult');
+
+    input2.setAttribute('type', 'text');
+    input2.setAttribute('name', 'login_id');
+    input2.setAttribute('value', login_id);
+
+    form.appendChild(input1);
+    form.appendChild(input2);
+
+    $.post("getdata",
+            $(form).serialize(),
+            function (message) {
+                //console.log(message);
+                var ret = $.parseJSON(message);
+
+                if (ret.returnType === 'OK') {
+                    $("#perfil_codigo_banco").val(ret.login_id);
+                    $("#perfil_login").val(ret.nome);
+                    $("#perfil_nome_compl").val(ret.nome_compl);
+                    $("#perfil_email").val(ret.email);
+                    $("#perfil_senha").val('');
+                } else if (ret.returnType === 'ERROR') {
+                    $('#defaultmessage').remove();
+                    $('#container').append(
+                            "<div id=\"defaultmessage\" class=\"alert alert-danger\" role=\"alert\">"
+                            + ret.ErrorMessage
+                            + "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">"
+                            + "<span aria-hidden=\"true\">&times;</span>"
+                            + "</button></div>");
+                } else {
+                    console.log("unknown return type in atualizaContato(): " + ret.returnType);
+                }
+            }
+    );
+}
+
+function salvarLogin() {
+
+    addTableFunctionTypeINE("#Form_Perfil", "Perfil_Save");
+    $.post("getdata",
+            $('#Form_Perfil').serialize(),
+            function (message) {
+                //console.log(message);
+                var ret_consulta = $.parseXML(message);
+                if ($(ret_consulta).find('returnType').text() === 'OK') {
+                    quickMessage($(ret_consulta).find('ErrorMessage').text(), '#modal_header_perfil');
+                } else if ($(ret_consulta).find('returnType').text() === 'ERROR') {
+                    quickErrorMessage($(ret_consulta).find('ErrorMessage').text(), '#modal_header_perfil');
+                } else {
+                    console.log("unknown return type in efetuaLogin(): " + message);
+                }
+
             }
     );
 }

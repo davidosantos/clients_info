@@ -39,12 +39,7 @@
 
             function configerror() {
                 alert("Configuração Invalida, ou não definida, \nVocê será direcionado para a página de configuração.");
-            <%
-                //Cria usuário genérico
-                session.setAttribute("userName", "Admin");
-                session.setAttribute("nomeCompl", "Administrador");
-            %>
-                window.location = 'config.jsp';
+               efetuaLoginGererico();
             }
         </script>
         <%
@@ -112,7 +107,7 @@
                     <label for="password" id="Label3" style="position:absolute;left:6px;top:98px;width:460px;height:18px;line-height:18px;z-index:3;">Password</label>
                     <input type="password" id="password" style="position:absolute;left:7px;top:117px;width:456px;height:18px;line-height:18px;z-index:4;" name="password" required>
 
-                    <input type="button" id="login" name="login" onclick="efetuaLogin('#loginform');" value="Log In" style="position:absolute;left:209px;top:182px;width:63px;height:24px;z-index:7;">
+                    <input type="button" id="login" class="button_padrao" name="login" onclick="efetuaLogin('#loginform');" value="Log In" style="position:absolute;left:209px;top:182px;width:63px;height:24px;z-index:7;">
                 </form>
             </div>
             <div id="wb_forgotpassword" style="position:absolute;left:631px;top:401px;width:208px;height:212px;z-index:16;">
@@ -121,7 +116,7 @@
                     <label for="email" id="Label5" style="position:absolute;left:6px;top:6px;width:188px;height:18px;line-height:18px;z-index:8;">Esqueceu a senha?</label>
                     <label for="email" id="Label6" style="position:absolute;left:6px;top:40px;width:188px;height:18px;line-height:18px;z-index:9;">Email</label>
                     <input type="text" id="email" style="position:absolute;left:7px;top:59px;width:184px;height:18px;line-height:18px;z-index:10;" name="email" value="">
-                    <input type="submit" id="submit" name="submit" value="Enviar" style="position:absolute;left:70px;top:182px;width:69px;height:24px;z-index:11;">
+                    <input type="button" class="button_padrao" onclick="enviaSenha('#forgotpassword');" value="Enviar" style="position:absolute;left:70px;top:182px;width:69px;height:24px;z-index:11;">
                 </form>
             </div>
         </div>

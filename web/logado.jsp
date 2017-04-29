@@ -14,9 +14,10 @@
     // Get session creation time.
     Date createTime = null;
 
-    String userID = new String("userID");
-    String userName = new String("userName");
-    String nomeCompl = new String("nomeCompl");
+    String userID = new String("login_id");
+    String userName = new String("nome");
+    String nomeCompl = new String("nome_compl");
+    String email = new String("email");
 
     if (request.getParameter("novo_login") != null) {
         try {
@@ -27,11 +28,12 @@
                 session.setAttribute(userID, MapDados.get("login_id"));
                 session.setAttribute(userName, MapDados.get("nome"));
                 session.setAttribute(nomeCompl, MapDados.get("nome_compl"));
+                session.setAttribute(email, MapDados.get("email"));
             } else {
                 out.print("<xml version='2.0'><returnType>ERROR</returnType><ErrorMessage>Usuário ou Senha Inválido.</ErrorMessage></xml>");
                 return;
             }
-            out.print("<xml version='2.0'><returnType>OK</returnType><ErrorMessage></ErrorMessage></xml>");
+            out.print("<xml version='2.0'><returnType>OK</returnType><login_id>"+session.getAttribute(userID)+"</login_id><ErrorMessage></ErrorMessage></xml>");
             return;
         } catch (Exception e) {
             //<script> window.location = 'index.jsp?message=Erro%20na%20funcao%20databaseConectivity.validaLogin';</script>
@@ -49,9 +51,9 @@
             createTime = new Date(session.getCreationTime());
             if (session.getAttribute(userName) == null) {
                 out.print("<xml version='2.0'><returnType>REDIRECT</returnType><ErrorMessage>Usuário não Identificado, Efetue o Login</ErrorMessage></xml>");
-                 return;
+                return;
             }
-            out.print("<xml version='2.0'><returnType>OK</returnType><ErrorMessage></ErrorMessage></xml>");
+            out.print("<xml version='2.0'><returnType>OK</returnType><login_id>"+session.getAttribute(userID)+"</login_id><ErrorMessage></ErrorMessage></xml>");
             return;
 
         } catch (IllegalStateException ise) {
@@ -59,13 +61,23 @@
             out.print("<xml version='2.0'><returnType>REDIRECT</returnType><ErrorMessage>Sessão Invalida, Efetue o Login.</ErrorMessage></xml>");
             return;
         }
-
-        //userID = (String) session.getAttribute(userIDKey);
+    } else if (request.getParameter("logout") != null ){
+        session.invalidate();
+        out.print("<xml version='2.0'><returnType>OK</returnType></xml>");
+         return;
+    } else if (request.getParameter("LoginGenerico") != null ){
+         //Cria usuário genérico
+        session.setAttribute("login_id", "0");
+        session.setAttribute("nome", "Admin");
+        session.setAttribute("nome_compl", "Administrador");
+        out.print("<xml version='2.0'><returnType>OK</returnType></xml>");
+        return;
     }
 %>
 
 
 <div id="wb_logado">
+    <input type="hidden" id="perfil_login_id" value="<%=session.getAttribute(userID)%>">
     <nav class="navbar navbar-default navbar-center">
         <div class="container-fluid">
             <ul class="nav navbar-nav">
@@ -85,6 +97,12 @@
                                 <tr>
                                     <td><a href="config.jsp">Configurações</a></td>
                                 </tr>
+                                <tr>
+                                    <td><a href="#" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#lightbox_EdittarPerfil">Editar Perfil</a></td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#" onclick="efetuaLogout();">Logout</a></td>
+                                </tr>
                             </table>
                         </div>
                     </div>
@@ -93,4 +111,6 @@
         </div>
     </nav>
 </div>
+
+
 
