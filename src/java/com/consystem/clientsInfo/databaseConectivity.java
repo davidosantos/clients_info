@@ -78,6 +78,23 @@ public class databaseConectivity {
         }
 
     }
+    public static void updateSenha(
+            int login_id,
+            int password) throws Exception {
+
+        PreparedStatement preparedStamnt;
+        preparedStamnt = conn.prepareStatement(
+                "update logins set password = ?"
+                + " where login_id = ?;");
+
+        preparedStamnt.setInt(1, password);
+        preparedStamnt.setInt(2, login_id);
+
+        if (preparedStamnt.executeUpdate() == 0) {
+            throw new Exception("No update where made: " + preparedStamnt.toString());
+        }
+
+    }
 
     public static void newCliente(
             String codigo,
@@ -112,12 +129,13 @@ public class databaseConectivity {
         preparedStamnt.execute();
 
     }
+
     public static void criarUsuario(
             String user,
             int senha,
             String nomeCompl,
             String email
-           ) throws Exception {
+    ) throws Exception {
 
         PreparedStatement preparedStamnt;
         preparedStamnt = conn.prepareStatement("insert into logins (nome,password,nome_compl,email)"
@@ -128,7 +146,6 @@ public class databaseConectivity {
         preparedStamnt.setInt(2, senha);
         preparedStamnt.setString(3, nomeCompl);
         preparedStamnt.setString(4, email);
-
 
         preparedStamnt.executeUpdate();
 
@@ -184,6 +201,34 @@ public class databaseConectivity {
 
     }
 
+    public static Map getLogin_id(
+            String email) throws Exception {
+
+       PreparedStatement preparedStamnt;
+        preparedStamnt = conn.prepareStatement(
+                "select * from logins "
+                + "where email = ?;");
+
+        preparedStamnt.setString(1, email);
+       
+        ResultSet rs = preparedStamnt.executeQuery();
+        Map map = new HashMap();
+
+        while (rs.next()) {
+
+            for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
+                map.put(rs.getMetaData().getColumnName(i), (rs.getString(i) == null ? "" : rs.getString(i)));
+            }
+
+            preparedStamnt.close();
+
+            return map;
+        }
+        preparedStamnt.close();
+
+        return map;
+    }
+
     public static void updateCampoPersonalizado(
             String campo_nome,
             int modulo_id, String data) throws Exception {
@@ -197,7 +242,25 @@ public class databaseConectivity {
         preparedStamnt.setString(2, campo_nome);
         preparedStamnt.setInt(3, modulo_id);
 
-        preparedStamnt.execute();
+        preparedStamnt.executeUpdate();
+
+    }
+    
+    public static void updatePerfil(
+            String nome,
+            String nome_compl, String email,int login_id) throws Exception {
+
+        PreparedStatement preparedStamnt;
+        preparedStamnt = conn.prepareStatement(
+                "update logins set nome = ?, nome_compl = ?, email = ? "
+                + "where login_id = ?;");
+
+        preparedStamnt.setString(1, nome);
+        preparedStamnt.setString(2, nome_compl);
+        preparedStamnt.setString(3, email);
+        preparedStamnt.setInt(4, login_id);
+
+        preparedStamnt.executeUpdate();
 
     }
 
@@ -211,6 +274,34 @@ public class databaseConectivity {
                 + "where nome = ? and password = ?;");
 
         preparedStamnt.setString(1, nome);
+        preparedStamnt.setInt(2, senha);
+        ResultSet rs = preparedStamnt.executeQuery();
+        Map map = new HashMap();
+
+        while (rs.next()) {
+
+            for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
+                map.put(rs.getMetaData().getColumnName(i), (rs.getString(i) == null ? "" : rs.getString(i)));
+            }
+
+            preparedStamnt.close();
+
+            return map;
+        }
+        preparedStamnt.close();
+
+        return map;
+    }
+    public static Map validaLogin(
+            int login_id,
+            int senha) throws Exception {
+
+        PreparedStatement preparedStamnt;
+        preparedStamnt = conn.prepareStatement(
+                "select * from logins "
+                + "where login_id = ? and password = ?;");
+
+        preparedStamnt.setInt(1, login_id);
         preparedStamnt.setInt(2, senha);
         ResultSet rs = preparedStamnt.executeQuery();
         Map map = new HashMap();
@@ -289,7 +380,7 @@ public class databaseConectivity {
             String prerequisitos,
             String crontab,
             String psirc
-            ) throws Exception {
+    ) throws Exception {
 
         PreparedStatement preparedStamnt;
         preparedStamnt = conn.prepareStatement(
@@ -373,6 +464,7 @@ public class databaseConectivity {
         preparedStamnt.execute();
 
     }
+    
 
     public static String selectCliente(String codigo) throws Exception {
 
@@ -406,6 +498,41 @@ public class databaseConectivity {
 
         preparedStamnt.close();
         throw new Exception("No results: selectCliente(String codigo) =" + codigo);
+    }
+    
+    public static String selectLogin(int login_id) throws Exception {
+
+        PreparedStatement preparedStamnt;
+        preparedStamnt = conn.prepareStatement(
+                "select login_id, nome, nome_compl, email"
+                        + " from logins where login_id = ?");
+
+        preparedStamnt.setInt(1, login_id);
+
+        ResultSet rs = preparedStamnt.executeQuery();
+
+        while (rs.next()) {
+
+            StringBuilder stb = new StringBuilder();
+            //cria strutura de dados em json
+            stb.append("{");
+            stb.append("\"returnType\":\"OK\",");
+
+            for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
+                stb.append("\"").append(rs.getMetaData().getColumnName(i)).append("\"");
+                stb.append(":");
+                stb.append("\"").append(rs.getString(i) == null ? "" : rs.getString(i)).append("\"");
+                if (i != rs.getMetaData().getColumnCount()) {
+                    stb.append(",");
+                }
+            }
+            stb.append("}");
+            return stb.toString();
+
+        }
+
+        preparedStamnt.close();
+        throw new Exception("No results: selectLogin(int login_id) =" + login_id);
     }
 
     public static String selectClientes() throws Exception {
