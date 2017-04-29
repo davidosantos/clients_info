@@ -7,13 +7,16 @@ package com.consystem.clientsInfo;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.time.LocalDateTime;
+import java.util.Map;
 import java.util.Properties;
+import java.util.Random;
 import java.util.Scanner;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
@@ -22,6 +25,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.PageContext;
 
 @MultipartConfig(maxFileSize = 0xffffffff)
 
@@ -449,50 +453,54 @@ public class getdata extends HttpServlet {
                     break;
                     case "config_create_user": {
                         try {
-                            if (request.getParameter("username") == null) {
+                            if (request.getParameter("username").equals("")) {
 
                                 broadMessage.createMessage("Deve Ser Informado o Usuário!",
                                         messageType.errorMessage);
 
                                 out.print(broadMessage.postMessage());
+                                return;
                             }
-                            if (request.getParameter("nome_compl") == null) {
+                            if (request.getParameter("nome_compl").equals("")) {
 
                                 broadMessage.createMessage("O Nome Completo é Obrigatório!",
                                         messageType.errorMessage);
 
                                 out.print(broadMessage.postMessage());
+                                return;
                             }
-                            if (request.getParameter("password") == null) {
+                            if (request.getParameter("password").equals("")) {
 
                                 broadMessage.createMessage("A Senha é Obrigatória!",
                                         messageType.errorMessage);
 
                                 out.print(broadMessage.postMessage());
+                                return;
                             }
-                            if (request.getParameter("email") == null) {
+                            if (request.getParameter("email").equals("")) {
 
                                 broadMessage.createMessage("O Email é Obrigatório!",
                                         messageType.errorMessage);
 
                                 out.print(broadMessage.postMessage());
+                                return;
                             }
 
                             databaseConectivity.criarUsuario(request.getParameter("username"),
                                     request.getParameter("password").hashCode(),
                                     request.getParameter("nome_compl"),
                                     request.getParameter("email"));
-                            
-                           broadMessage.createMessage("Usuário Criado com Sucesso!",
-                                        messageType.successMessage);
 
-                                out.print(broadMessage.postMessage());
+                            broadMessage.createMessage("Usuário Criado com Sucesso!",
+                                    messageType.successMessage);
+
+                            out.print(broadMessage.postMessage());
 
                         } catch (Exception e) {
-                             broadMessage.createMessage("Erro: Funçao: config_create_user: "+e.getMessage(),
-                                        messageType.errorMessage);
+                            broadMessage.createMessage("Erro: Funçao: config_create_user: " + e.getMessage(),
+                                    messageType.errorMessage);
 
-                                out.print(broadMessage.postMessage());
+                            out.print(broadMessage.postMessage());
                         }
 
                     }
@@ -622,6 +630,72 @@ public class getdata extends HttpServlet {
                         }
                     }
                     break;
+                    case "Perfil_Consult": {
+                        try {
+                            out.print(databaseConectivity.selectLogin(Integer.parseInt(request.getParameter("login_id"))));
+
+                        } catch (Exception e) {
+                            out.print("{\"returnType\":\"ERROR\",\"ErrorMessage\":" + "\"Error: Perfil_Consult= " + request.getParameter("login_id") + " " + e.getMessage() + "\"" + "}");
+                        }
+                    }
+                    break;
+
+                    case "Perfil_Save": {
+                        try {
+                            if (request.getParameter("perfil_login") == null && request.getParameter("perfil_login").equals("")) {
+                                out.print("<xml version='2.0'><returnType>ERROR</returnType><ErrorMessage>" + "Erro Função: Perfil_Save 'perfil_login' Deve Ser Informado</ErrorMessage></xml>");
+                                return;
+                            }
+                            if (request.getParameter("perfil_nome_compl") == null || request.getParameter("perfil_nome_compl").equals("")) {
+                                out.print("<xml version='2.0'><returnType>ERROR</returnType><ErrorMessage>" + "Erro Função: Perfil_Save 'perfil_nome_compl' Deve Ser Informado</ErrorMessage></xml>");
+                                return;
+                            }
+                            if (request.getParameter("perfil_email") == null || request.getParameter("perfil_email").equals("")) {
+                                out.print("<xml version='2.0'><returnType>ERROR</returnType><ErrorMessage>" + "Erro Função: Perfil_Save 'perfil_email' Deve Ser Informado</ErrorMessage></xml>");
+                                return;
+                            }
+                            if (request.getParameter("perfil_codigo_banco") == null || request.getParameter("perfil_codigo_banco").equals("")) {
+                                out.print("<xml version='2.0'><returnType>ERROR</returnType><ErrorMessage>" + "Erro Função: Perfil_Save 'perfil_codigo_banco' Deve Ser Informado</ErrorMessage></xml>");
+                                return;
+                            }
+
+                            databaseConectivity.updatePerfil(request.getParameter("perfil_login"),
+                                    request.getParameter("perfil_nome_compl"),
+                                    request.getParameter("perfil_email"),
+                                    Integer.parseInt(request.getParameter("perfil_codigo_banco")));
+
+                            if (!request.getParameter("perfil_senha_nova").equals("")) {
+                                if (request.getParameter("perfil_senha").equals("")) {
+                                    out.print("<xml version='2.0'><returnType>ERROR</returnType><ErrorMessage>Para a Atualização da Senha, Deve Informar a Senha Atual.</ErrorMessage></xml>");
+                                    return;
+                                }
+
+                                try {
+                                    Map MapDados = databaseConectivity.validaLogin(Integer.parseInt(request.getParameter("perfil_codigo_banco")),
+                                            request.getParameter("perfil_senha").hashCode());
+                                    if (MapDados.isEmpty()) {
+                                        out.print("<xml version='2.0'><returnType>ERROR</returnType><ErrorMessage>Senha Atual Inválido.</ErrorMessage></xml>");
+                                    } else {
+                                        
+                                        databaseConectivity.updateSenha(Integer.parseInt(request.getParameter("perfil_codigo_banco")),
+                                                request.getParameter("perfil_senha_nova").hashCode());
+                                        
+                                        out.print("<xml version='2.0'><returnType>OK</returnType><ErrorMessage>Perfil Salvo e Senha Atualizada.</ErrorMessage></xml>");
+                                    }
+                                    
+                                } catch (Exception e) {
+                                    out.print("<xml version='2.0'><returnType>ERROR</returnType><ErrorMessage>" + "Erro Função: Perfil_Save " + e.getMessage() + "</ErrorMessage></xml>");
+                                }
+
+                            } else {
+
+                                out.print("<xml version='1.0'><returnType>OK</returnType><ErrorMessage>Perfil Salvo Com Sucesso.</ErrorMessage></xml>");
+                            }
+                        } catch (Exception e) {
+                            out.print("<xml version='2.0'><returnType>ERROR</returnType><ErrorMessage>" + "Erro Função: Perfil_Save " + e.getMessage() + "</ErrorMessage></xml>");
+                        }
+                    }
+                    break;
 
                     case "Consulta_clientes": {
                         try {
@@ -734,6 +808,74 @@ public class getdata extends HttpServlet {
 
                         } catch (Exception e) {
                             out.print("<xml version='2.0'><returnType>ERROR</returnType><ErrorMessage>" + e.getMessage() + " Função: consulta_Client_config, cliente_selecionado =" + request.getParameter("cliente_selecionado") + "</ErrorMessage></xml>");
+                        }
+                    }
+                    break;
+
+                    case "envia_senha": {
+                        try {
+                            if (request.getParameter("email").equals("")) {
+                                throw new Exception("O Email deve ser informado!");
+                            }
+
+                            Map login = databaseConectivity.getLogin_id(request.getParameter("email"));
+
+                            if (!login.isEmpty()) {
+
+                                Random randNumber = new Random();
+
+                                String novaSenha = " ";
+                                char abc[] = "bcdfghjlmnpqrstvxzkwy".toCharArray();
+
+                                for (int i = 0; i < 5; i++) {
+                                    novaSenha = novaSenha.concat(String.valueOf(abc[randNumber.nextInt(abc.length)]));
+                                }
+                                novaSenha = novaSenha.trim();
+
+                                Properties configFile;
+
+                                configFile = new Properties();
+
+                                File filestream = new File(getServletContext().getRealPath("/mail_config.properties"));
+                                FileInputStream inFile = new FileInputStream(filestream);
+
+                                if (filestream.exists()) {
+                                    configFile.load(inFile);//Read from WEB-INF/classes folder
+
+                                    if (!configFile.getProperty("configok").equals("true")) {
+                                        throw new Exception("Arquivo de configurações de email não configurado corretamente, entre em contato com o administrador.");
+                                    }
+
+                                    inFile.close();
+
+                                    mailSerder.testEmail(configFile.getProperty("host_email"),
+                                            configFile.getProperty("port_email"),
+                                            configFile.getProperty("tsl_mail").equals("true"),
+                                            configFile.getProperty("username_email"),
+                                            configFile.getProperty("password_email"),
+                                            request.getParameter("email"), "Clients Info - Nova Senha",
+                                            "Prezado, " + login.get("nome_compl").toString() + ", \n"
+                                            + "Conforme solicitado, estamos lhe enviando uma nova senha para acesso ao site Clients Info. \n\n"
+                                            + "Login: " + login.get("nome").toString() + "\n"
+                                            + "Senha: " + novaSenha + "\n\n"
+                                            + "Att. Consystem \n");
+
+                                } else { //if not goto cofig page
+                                    throw new Exception("Arquivo de configurações não en contrado! Entre em contaot com o administrador do site!");
+                                }
+                                databaseConectivity.updateSenha(Integer.parseInt(login.get("login_id").toString()), novaSenha.hashCode());
+                                broadMessage.createMessage("Solicitação de senha con sucesso para " + request.getParameter("email"),
+                                        messageType.successMessage);
+                                out.print(broadMessage.postMessage());
+                            } else {
+                                throw new Exception("Email informado " + request.getParameter("email") + " Não Cadastrado.");
+                            }
+
+                        } catch (Exception e) {
+
+                            broadMessage.createMessage("Erro na Função envia_senha: " + e.getMessage(),
+                                    messageType.errorMessage);
+                            out.print(broadMessage.postMessage());
                         }
                     }
                     break;
