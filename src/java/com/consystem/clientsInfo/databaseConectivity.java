@@ -467,7 +467,7 @@ public class databaseConectivity {
 
         PreparedStatement preparedStamnt;
         preparedStamnt = conn.prepareStatement(
-                "select * from clientes where codigo = ?");
+                "select * from clientes where codigo = ? order by codigo");
 
         preparedStamnt.setString(1, codigo);
 
@@ -536,7 +536,7 @@ public class databaseConectivity {
 
         PreparedStatement preparedStamnt;
         preparedStamnt = conn.prepareStatement(
-                "select codigo from clientes;");
+                "select codigo from clientes order by codigo;");
 
         ResultSet rs = preparedStamnt.executeQuery();
 
@@ -561,7 +561,7 @@ public class databaseConectivity {
 
         PreparedStatement preparedStamnt;
         preparedStamnt = conn.prepareStatement(
-                "select nome from modulos;");
+                "select nome from modulos order by nome;");
 
         ResultSet rs = preparedStamnt.executeQuery();
 
@@ -588,7 +588,7 @@ public class databaseConectivity {
         preparedStamnt = conn.prepareStatement(
                 "select nome from modulos where modulo_id in "
                 + "(select modulo_id from cliente_vs_modulo where cliente_id="
-                + "(select cliente_id from clientes where codigo=?));");
+                + "(select cliente_id from clientes where codigo=?)) order by nome;");
 
         preparedStamnt.setString(1, codigo);
 
@@ -615,7 +615,8 @@ public class databaseConectivity {
 
         PreparedStatement preparedStamnt;
         preparedStamnt = conn.prepareStatement(
-                "select codigo from clientes where cliente_id in (select cliente_id from cliente_vs_modulo where modulo_id=?);");
+                "select codigo from clientes where cliente_id in "
+                        + "(select cliente_id from cliente_vs_modulo where modulo_id=?) order by codigo;");
 
         preparedStamnt.setInt(1, modulo_id);
 
@@ -644,7 +645,7 @@ public class databaseConectivity {
         preparedStamnt = conn.prepareStatement(
                 "select codigo from clientes where cliente_id in "
                 + "(select cliente_id from cliente_vs_modulo where modulo_id="
-                + "(select modulo_id from modulos where nome=?));");
+                + "(select modulo_id from modulos where nome=?)) order by codigo;");
 
         preparedStamnt.setString(1, modulo_nome);
 
@@ -870,7 +871,7 @@ public class databaseConectivity {
         try {
 
             preparedStamnt = conn.prepareStatement("select codigo from "
-                    + "clientes");
+                    + "clientes order by codigo");
 
             ResultSet rs = preparedStamnt.executeQuery();
             if (rs.next()) {
@@ -904,7 +905,7 @@ public class databaseConectivity {
         try {
 
             preparedStamnt = conn.prepareStatement("select nome from "
-                    + "modulos");
+                    + "modulos order by nome");
 
             ResultSet rs = preparedStamnt.executeQuery();
             if (rs.next()) {
