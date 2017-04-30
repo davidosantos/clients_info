@@ -9,10 +9,8 @@ import com.ibatis.common.jdbc.ScriptRunner;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.sql.Connection;
@@ -20,7 +18,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -357,7 +354,7 @@ public class databaseConectivity {
 
             for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
                 stb.append("<").append(rs.getMetaData().getColumnName(i)).append(">");
-                stb.append(rs.getString(i) == null ? "" : rs.getString(i));
+                stb.append(rs.getString(i) == null ? "" : rs.getString(i).replaceAll("<", "&lt;"));
                 stb.append("</").append(rs.getMetaData().getColumnName(i)).append(">");
             }
 
@@ -705,7 +702,7 @@ public class databaseConectivity {
             stb.append("<xml version='2.0'><returnType>OK</returnType>");
             for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
                 stb.append("<").append(rs.getMetaData().getColumnName(i)).append(">");
-                stb.append(rs.getString(i) == null ? "" : rs.getString(i));
+                stb.append(rs.getString(i) == null ? "" : rs.getString(i).replaceAll("<", "&lt;"));
                 stb.append("</").append(rs.getMetaData().getColumnName(i)).append(">");
             }
 
@@ -726,7 +723,7 @@ public class databaseConectivity {
                 stb.append("</campos>");
                 if (rs.getString("valor_campo") != null) {
                     stb.append("<data_").append(rs.getString("nome_campo")).append(">");
-                    stb.append(rs.getString("valor_campo"));
+                    stb.append(rs.getString("valor_campo").replaceAll("<", "&lt;"));
                     stb.append("</data_").append(rs.getString("nome_campo")).append(">");
                 }
             }
@@ -742,7 +739,7 @@ public class databaseConectivity {
             while (rs.next()) {
                 //cria strutura de dados em xml
                 stb.append("<arquivos_anexados>");
-                stb.append(rs.getString("arquivo_nome"));
+                stb.append(rs.getString("arquivo_nome").replaceAll("<", "&lt;"));
                 stb.append("</arquivos_anexados>");
             }
 
@@ -761,7 +758,7 @@ public class databaseConectivity {
                 while (rs.next()) {
                     //cria strutura de dados em xml
                     stb.append("<config_cliente>");
-                    stb.append(rs.getString("config"));
+                    stb.append(rs.getString("config").replaceAll("<", "&lt;"));
                     stb.append("</config_cliente>");
                 }
             }
@@ -797,7 +794,7 @@ public class databaseConectivity {
             stb.append("</campos>");
             if (rs.getString("valor_campo") != null) {
                 stb.append("<data_").append(rs.getString("nome_campo")).append(">");
-                stb.append(rs.getString("valor_campo"));
+                stb.append(rs.getString("valor_campo").replaceAll("<", "&lt;"));
                 stb.append("</data_").append(rs.getString("nome_campo")).append(">");
             }
         }

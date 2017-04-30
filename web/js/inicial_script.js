@@ -22,7 +22,7 @@ $(document).ready(function () {
         consultaTableModuloPorCliente("#table_modulos", $("#cliente_selecionado").val());
         if ($('#modulo_selecionado').val()) {
             carregaModulo_info();
-            console.log('wrong' + $('#modulo_selecionado').val());
+           // console.log('wrong' + $('#modulo_selecionado').val());
         }
     });
     document.getElementById("pesquisa_modulo").addEventListener("keyup", function () {
